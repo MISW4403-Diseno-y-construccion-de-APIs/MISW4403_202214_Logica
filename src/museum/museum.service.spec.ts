@@ -49,7 +49,7 @@ describe('MuseumService', () => {
     expect(museums).toHaveLength(museumsList.length);
   });
 
-  it('findOne should one museum by id', async () => {
+  it('findOne should throw a museum by id', async () => {
     const storedMuseum: MuseumEntity = museumsList[0];
     const museum: MuseumEntity = await service.findOne(storedMuseum.id);
     expect(museum).not.toBeNull();
@@ -60,7 +60,7 @@ describe('MuseumService', () => {
     expect(museum.image).toEqual(storedMuseum.image)
   });
 
-  it('findOne should return exception when get an invalid museum', async () => {
+  it('findOne should throw an exception for an invalid museum', async () => {
     await expect(() => service.findOne("0")).rejects.toHaveProperty("message", "The museum with the given id was not found")
   });
 
@@ -99,10 +99,9 @@ describe('MuseumService', () => {
     expect(storedMuseum).not.toBeNull();
     expect(storedMuseum.name).toEqual(museum.name)
     expect(storedMuseum.address).toEqual(museum.address)
-    console.log("Stored", storedMuseum.name)
   });
  
-  it('update should thrown an exception when update an invalid museum', async () => {
+  it('update should throw an exception for an invalid museum', async () => {
     let museum = museumsList[0];
     museum = {
       ...museum, name: "New name", address: "New address"
@@ -118,7 +117,7 @@ describe('MuseumService', () => {
     expect(deletedMuseum).toBeNull();
   });
 
-  it('delete should thrown an exception when delete an invalid museum', async () => {
+  it('delete should throw an exception for an invalid museum', async () => {
     const museum = museumsList[0];
     await service.delete(museum.id);
     await expect(() => service.delete("0")).rejects.toHaveProperty("message", "The museum with the given id was not found")

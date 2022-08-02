@@ -17,6 +17,7 @@ import { ImageEntity } from './image/image.entity';
 import { MovementEntity } from './movement/movement.entity';
 import { MuseumEntity } from './museum/museum.entity';
 import { SponsorEntity } from './sponsor/sponsor.entity';
+import { MuseumArtworkModule } from './museum-artwork/museum-artwork.module';
 
 @Module({
   imports: [MuseumModule, ExhibitionModule, ArtworkModule, SponsorModule, ImageModule, ArtistModule, MovementModule,
@@ -32,6 +33,7 @@ import { SponsorEntity } from './sponsor/sponsor.entity';
       synchronize: true,
       keepConnectionAlive: true
     }),
+    MuseumArtworkModule,
   ],
   controllers: [AppController],
   providers: [AppService],
