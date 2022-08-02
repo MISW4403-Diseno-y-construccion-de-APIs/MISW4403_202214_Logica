@@ -18,15 +18,15 @@ export class MuseumService {
     }
 
     async findOne(id: string): Promise<MuseumEntity> {
-        const museum = await this.museumRepository.findOne({where: {id}, relations: ["artworks", "exhibitions"] } )
+        const museum: MuseumEntity = await this.museumRepository.findOne({where: {id}, relations: ["artworks", "exhibitions"] } );
         if (!museum)
-          throw new BusinessLogicException("The museum with the given id was not found", BusinessError.NOT_FOUND)
+          throw new BusinessLogicException("The museum with the given id was not found", BusinessError.NOT_FOUND);
         else
           return museum;
     }
     
     async create(museumDto: MuseumDto): Promise<MuseumEntity> {
-        const museum = new MuseumEntity();
+        const museum: MuseumEntity = new MuseumEntity();
         museum.name = museumDto.name;
         museum.description = museumDto.description;
         museum.address = museumDto.address;
@@ -36,9 +36,9 @@ export class MuseumService {
     }
 
     async update(id: string, museumDto: MuseumDto): Promise<MuseumEntity> {
-        const museum = await this.museumRepository.findOne({where:{id}});
+        const museum: MuseumEntity = await this.museumRepository.findOne({where:{id}});
         if (!museum)
-          throw new BusinessLogicException("The museum with the given id was not found", BusinessError.NOT_FOUND)
+          throw new BusinessLogicException("The museum with the given id was not found", BusinessError.NOT_FOUND);
        
         museum.name = museumDto.name;
         museum.description = museumDto.description;
@@ -51,9 +51,9 @@ export class MuseumService {
     }
 
     async delete(id: string) {
-        const museum = await this.museumRepository.findOne({where:{id}});
+        const museum: MuseumEntity = await this.museumRepository.findOne({where:{id}});
         if (!museum)
-          throw new BusinessLogicException("The museum with the given id was not found", BusinessError.NOT_FOUND)
+          throw new BusinessLogicException("The museum with the given id was not found", BusinessError.NOT_FOUND);
       
         await this.museumRepository.remove(museum);
     }

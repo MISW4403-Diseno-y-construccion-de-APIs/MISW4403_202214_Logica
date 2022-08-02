@@ -49,7 +49,7 @@ describe('MuseumService', () => {
     expect(museums).toHaveLength(museumsList.length);
   });
 
-  it('findOne should throw a museum by id', async () => {
+  it('findOne should return a museum by id', async () => {
     const storedMuseum: MuseumEntity = museumsList[0];
     const museum: MuseumEntity = await service.findOne(storedMuseum.id);
     expect(museum).not.toBeNull();
@@ -87,22 +87,21 @@ describe('MuseumService', () => {
   });
 
   it('update should modify a museum', async () => {
-    let museum = museumsList[0];
-    museum = {
-      ...museum, name: "New name", address: "New address"
-    }
+    const museum: MuseumEntity = museumsList[0];
+    museum.name = "New name";
+    museum.address = "New address";
   
-    const updatedMuseum = await service.update(museum.id, museum);
+    const updatedMuseum: MuseumEntity = await service.update(museum.id, museum);
     expect(updatedMuseum).not.toBeNull();
   
-    const storedMuseum = await repository.findOne({ where: { id: museum.id } })
+    const storedMuseum: MuseumEntity = await repository.findOne({ where: { id: museum.id } })
     expect(storedMuseum).not.toBeNull();
     expect(storedMuseum.name).toEqual(museum.name)
     expect(storedMuseum.address).toEqual(museum.address)
   });
  
   it('update should throw an exception for an invalid museum', async () => {
-    let museum = museumsList[0];
+    let museum: MuseumEntity = museumsList[0];
     museum = {
       ...museum, name: "New name", address: "New address"
     }
@@ -110,15 +109,15 @@ describe('MuseumService', () => {
   });
 
   it('delete should remove a museum', async () => {
-    const museum = museumsList[0];
+    const museum: MuseumEntity = museumsList[0];
     await service.delete(museum.id);
   
-    const deletedMuseum = await repository.findOne({ where: { id: museum.id } })
+    const deletedMuseum: MuseumEntity = await repository.findOne({ where: { id: museum.id } })
     expect(deletedMuseum).toBeNull();
   });
 
   it('delete should throw an exception for an invalid museum', async () => {
-    const museum = museumsList[0];
+    const museum: MuseumEntity = museumsList[0];
     await service.delete(museum.id);
     await expect(() => service.delete("0")).rejects.toHaveProperty("message", "The museum with the given id was not found")
   });
