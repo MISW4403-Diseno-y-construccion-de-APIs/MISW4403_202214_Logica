@@ -192,7 +192,7 @@ describe('MuseumArtworkService', () => {
   it('deleteArtworkToMuseum should remove an artwork from a museum', async () => {
     const artwork: ArtworkEntity = artworksList[0];
     
-    await service.deleteArtworkMuseum(artwork.id, museum.id);
+    await service.deleteArtworkMuseum(museum.id, artwork.id);
 
     const storedMuseum: MuseumEntity = await museumRepository.findOne({where: {id: museum.id}, relations: ["artworks"]});
     const deletedArtwork: ArtworkEntity = storedMuseum.artworks.find(a => a.id === artwork.id);
@@ -202,12 +202,12 @@ describe('MuseumArtworkService', () => {
   });
 
   it('deleteArtworkToMuseum should thrown an exception for an invalid artwork', async () => {
-    await expect(()=> service.deleteArtworkMuseum("0", museum.id)).rejects.toHaveProperty("message", "The artwork with the given id was not found"); 
+    await expect(()=> service.deleteArtworkMuseum(museum.id, "0")).rejects.toHaveProperty("message", "The artwork with the given id was not found"); 
   });
 
   it('deleteArtworkToMuseum should thrown an exception for an invalid museum', async () => {
     const artwork: ArtworkEntity = artworksList[0];
-    await expect(()=> service.deleteArtworkMuseum(artwork.id, "0")).rejects.toHaveProperty("message", "The museum with the given id was not found"); 
+    await expect(()=> service.deleteArtworkMuseum("0", artwork.id)).rejects.toHaveProperty("message", "The museum with the given id was not found"); 
   });
 
   it('deleteArtworkToMuseum should thrown an exception for an non asocciated artwork', async () => {
@@ -219,7 +219,7 @@ describe('MuseumArtworkService', () => {
       mainImage: faker.image.imageUrl()
     });
 
-    await expect(()=> service.deleteArtworkMuseum(newArtwork.id, museum.id)).rejects.toHaveProperty("message", "The artwork with the given id is not associated to the museum"); 
+    await expect(()=> service.deleteArtworkMuseum(museum.id, newArtwork.id)).rejects.toHaveProperty("message", "The artwork with the given id is not associated to the museum"); 
   }); 
 
 });
