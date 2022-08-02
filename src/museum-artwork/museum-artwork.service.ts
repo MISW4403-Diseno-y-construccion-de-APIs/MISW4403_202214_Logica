@@ -18,11 +18,11 @@ export class MuseumArtworkService {
     ) {}
 
     async addArtworkMuseum(museumId: string, artworkId: string): Promise<MuseumEntity> {
-        const artwork = await this.artworkRepository.findOne({where: {id: artworkId}});
+        const artwork: ArtworkEntity = await this.artworkRepository.findOne({where: {id: artworkId}});
         if (!artwork)
           throw new BusinessLogicException("The artwork with the given id was not found", BusinessError.NOT_FOUND);
        
-        const museum = await this.museumRepository.findOne({where: {id: museumId}, relations: ["artworks"]}) 
+        const museum: MuseumEntity = await this.museumRepository.findOne({where: {id: museumId}, relations: ["artworks"]}) 
         if (!museum)
           throw new BusinessLogicException("The museum with the given id was not found", BusinessError.NOT_FOUND);
      
@@ -31,15 +31,15 @@ export class MuseumArtworkService {
       }
      
     async findArtworkByMuseumIdArtworkId(museumId: string, artworkId: string): Promise<ArtworkEntity> {
-        const artwork = await this.artworkRepository.findOne({where: {id: artworkId}});
+        const artwork: ArtworkEntity = await this.artworkRepository.findOne({where: {id: artworkId}});
           if (!artwork)
             throw new BusinessLogicException("The artwork with the given id was not found", BusinessError.NOT_FOUND)
          
-          const museum = await this.museumRepository.findOne({where: {id: museumId}, relations: ["artworks"]}); 
+          const museum: MuseumEntity = await this.museumRepository.findOne({where: {id: museumId}, relations: ["artworks"]}); 
           if (!museum)
             throw new BusinessLogicException("The museum with the given id was not found", BusinessError.NOT_FOUND)
      
-          const museumArtwork = museum.artworks.find(e => e.id === artwork.id);
+          const museumArtwork: ArtworkEntity = museum.artworks.find(e => e.id === artwork.id);
      
           if (!museumArtwork)
             throw new BusinessLogicException("The artwork with the given id is not associated to the museum", BusinessError.PRECONDITION_FAILED)
@@ -64,7 +64,7 @@ export class MuseumArtworkService {
         const artworks: ArtworkEntity[] = [];
      
         for (let i = 0; i < artworkDTO.length; i++) {
-          const artwork = await this.artworkRepository.findOne({where: {id: artworkDTO[i].id}});
+          const artwork: ArtworkEntity = await this.artworkRepository.findOne({where: {id: artworkDTO[i].id}});
           if (!artwork)
             throw new BusinessLogicException("The artwork with the given id was not found", BusinessError.NOT_FOUND)
           else
@@ -76,7 +76,7 @@ export class MuseumArtworkService {
       }
      
     async deleteArtworkMuseum(artworkId: string, museumId: string): Promise<MuseumEntity> {
-        const artwork = await this.artworkRepository.findOne({where: {id: artworkId}});
+        const artwork: ArtworkEntity = await this.artworkRepository.findOne({where: {id: artworkId}});
         if (!artwork)
           throw new BusinessLogicException("The artwork with the given id was not found", BusinessError.NOT_FOUND)
      
@@ -84,7 +84,7 @@ export class MuseumArtworkService {
         if (!museum)
           throw new BusinessLogicException("The museum with the given id was not found", BusinessError.NOT_FOUND)
      
-        const museumArtwork = museum.artworks.find(e => e.id === artwork.id);
+        const museumArtwork: ArtworkEntity = museum.artworks.find(e => e.id === artwork.id);
      
         if (!museumArtwork)
             throw new BusinessLogicException("The artwork with the given id is not associated to the museum", BusinessError.PRECONDITION_FAILED)

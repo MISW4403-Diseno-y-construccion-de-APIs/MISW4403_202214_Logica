@@ -21,8 +21,8 @@ export class MuseumService {
         const museum: MuseumEntity = await this.museumRepository.findOne({where: {id}, relations: ["artworks", "exhibitions"] } );
         if (!museum)
           throw new BusinessLogicException("The museum with the given id was not found", BusinessError.NOT_FOUND);
-        else
-          return museum;
+    
+        return museum;
     }
     
     async create(museumDto: MuseumDto): Promise<MuseumEntity> {
@@ -46,8 +46,7 @@ export class MuseumService {
         museum.city = museumDto.city;
         museum.image = museumDto.image;
      
-        await this.museumRepository.save(museum);
-        return museum;
+        return await this.museumRepository.save(museum);
     }
 
     async delete(id: string) {
