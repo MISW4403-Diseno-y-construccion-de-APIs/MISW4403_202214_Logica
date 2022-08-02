@@ -75,7 +75,7 @@ export class MuseumArtworkService {
         return await this.museumRepository.save(museum);
       }
      
-    async deleteArtworkMuseum(museumId: string, artworkId: string): Promise<MuseumEntity> {
+    async deleteArtworkMuseum(museumId: string, artworkId: string){
         const artwork: ArtworkEntity = await this.artworkRepository.findOne({where: {id: artworkId}});
         if (!artwork)
           throw new BusinessLogicException("The artwork with the given id was not found", BusinessError.NOT_FOUND)
@@ -90,6 +90,6 @@ export class MuseumArtworkService {
             throw new BusinessLogicException("The artwork with the given id is not associated to the museum", BusinessError.PRECONDITION_FAILED)
 
         museum.artworks = museum.artworks.filter(e => e.id !== artworkId);
-        return await this.museumRepository.save(museum);
+        await this.museumRepository.save(museum);
     }   
 }
