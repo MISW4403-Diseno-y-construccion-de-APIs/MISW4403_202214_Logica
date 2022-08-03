@@ -1,7 +1,7 @@
 pipeline {
    agent any
    environment {
-      GIT_REPO = '202214_BaseProject'
+      GIT_REPO = 'MISW4403_202214_Logica'
       GIT_CREDENTIAL_ID = '277a9d46-cf19-4119-afd9-4054a7d35151'
       SONARQUBE_URL = 'http://172.24.100.52:8082/sonar-misovirtual'
    }
