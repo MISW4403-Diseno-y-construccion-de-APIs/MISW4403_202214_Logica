@@ -42,6 +42,7 @@ pipeline {
             script {
                docker.image('citools-isis2603:latest').inside('-u root') {
                   sh '''
+                     npm_config_cache=npm-cache
                      npm i -s
                      nest build
                   '''
