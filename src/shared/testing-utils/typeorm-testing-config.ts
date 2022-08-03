@@ -10,7 +10,7 @@ import { SponsorEntity } from '../../sponsor/sponsor.entity';
 
 export const TypeOrmTestingConfig = () => [
   TypeOrmModule.forRoot({
-    type: 'better-sqlite3',
+    type: 'sqlite',
     database: ':memory:',
     dropSchema: true,
     entities: [ArtistEntity, ArtworkEntity, ExhibitionEntity, ImageEntity, MovementEntity, MuseumEntity, SponsorEntity],
