@@ -157,7 +157,7 @@ describe('MuseumArtworkService', () => {
       year: parseInt(faker.random.numeric()),
       description: faker.lorem.sentence(),
       type: "Painting",
-      mainImage: faker.image.imageUrl()
+      mainImage: faker.image.imageUrl() 
     });
 
     const updatedMuseum: MuseumEntity = await service.associateArtworksMuseum(museum.id, [newArtwork]);

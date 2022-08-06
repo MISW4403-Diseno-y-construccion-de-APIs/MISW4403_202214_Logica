@@ -7,7 +7,6 @@ import { MuseumEntity } from './museum.entity';
 import { MuseumService } from './museum.service';
 
 import { faker } from '@faker-js/faker';
-import { MuseumDto } from './museum.dto';
 
 describe('MuseumService', () => {
   let service: MuseumService;
@@ -65,13 +64,15 @@ describe('MuseumService', () => {
   });
 
   it('create should return a new museum', async () => {
-    const museum: MuseumDto = {
+    const museum: MuseumEntity = {
       id: "",
       name: faker.company.companyName(), 
       description: faker.lorem.sentence(), 
       address: faker.address.secondaryAddress(), 
       city: faker.address.city(), 
-      image: faker.image.imageUrl()
+      image: faker.image.imageUrl(),
+      exhibitions: [],
+      artworks: []
     }
 
     const newMuseum: MuseumEntity = await service.create(museum);

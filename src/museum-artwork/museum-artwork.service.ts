@@ -5,7 +5,6 @@ import { ArtworkEntity } from '../artwork/artwork.entity';
 import { MuseumEntity } from '../museum/museum.entity';
 import { Repository } from 'typeorm';
 import { BusinessError, BusinessLogicException } from '../shared/errors/business-errors';
-import { ArtworkDto } from '../artwork/artwork.dto';
 
 @Injectable()
 export class MuseumArtworkService {
@@ -55,20 +54,16 @@ export class MuseumArtworkService {
         return museum.artworks;
     }
      
-    async associateArtworksMuseum(museumId: string, artworkDTO: ArtworkDto[]): Promise<MuseumEntity> {
+    async associateArtworksMuseum(museumId: string, artworks: ArtworkEntity[]): Promise<MuseumEntity> {
         const museum: MuseumEntity = await this.museumRepository.findOne({where: {id: museumId}, relations: ["artworks"]});
      
         if (!museum)
           throw new BusinessLogicException("The museum with the given id was not found", BusinessError.NOT_FOUND)
      
-        const artworks: ArtworkEntity[] = [];
-     
-        for (let i = 0; i < artworkDTO.length; i++) {
-          const artwork: ArtworkEntity = await this.artworkRepository.findOne({where: {id: artworkDTO[i].id}});
+        for (let i = 0; i < artworks.length; i++) {
+          const artwork: ArtworkEntity = await this.artworkRepository.findOne({where: {id: artworks[i].id}});
           if (!artwork)
             throw new BusinessLogicException("The artwork with the given id was not found", BusinessError.NOT_FOUND)
-          else
-            artworks.push(artwork);
         }
      
         museum.artworks = artworks;

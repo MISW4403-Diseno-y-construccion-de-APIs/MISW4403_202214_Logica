@@ -4,7 +4,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { BusinessError, BusinessLogicException } from '../shared/errors/business-errors';
 import { Repository } from 'typeorm';
 import { MuseumEntity } from './museum.entity';
-import { MuseumDto } from './museum.dto';
 
 @Injectable()
 export class MuseumService {
@@ -25,27 +24,17 @@ export class MuseumService {
         return museum;
     }
     
-    async create(museumDto: MuseumDto): Promise<MuseumEntity> {
-        const museum: MuseumEntity = new MuseumEntity();
-        museum.name = museumDto.name;
-        museum.description = museumDto.description;
-        museum.address = museumDto.address;
-        museum.city = museumDto.city;
-        museum.image = museumDto.image;
+    async create(museum: MuseumEntity): Promise<MuseumEntity> {
         return await this.museumRepository.save(museum);
     }
 
-    async update(id: string, museumDto: MuseumDto): Promise<MuseumEntity> {
-        const museum: MuseumEntity = await this.museumRepository.findOne({where:{id}});
-        if (!museum)
+    async update(id: string, museum: MuseumEntity): Promise<MuseumEntity> {
+        const persistedMuseum: MuseumEntity = await this.museumRepository.findOne({where:{id}});
+        if (!persistedMuseum)
           throw new BusinessLogicException("The museum with the given id was not found", BusinessError.NOT_FOUND);
-       
-        museum.name = museumDto.name;
-        museum.description = museumDto.description;
-        museum.address = museumDto.address;
-        museum.city = museumDto.city;
-        museum.image = museumDto.image;
-     
+        
+        museum.id = id;  
+        
         return await this.museumRepository.save(museum);
     }
 
