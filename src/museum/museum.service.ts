@@ -33,9 +33,7 @@ export class MuseumService {
         if (!persistedMuseum)
           throw new BusinessLogicException("The museum with the given id was not found", BusinessError.NOT_FOUND);
         
-        museum.id = id;  
-        
-        return await this.museumRepository.save(museum);
+        return await this.museumRepository.save({...persistedMuseum, ...museum});
     }
 
     async delete(id: string) {
